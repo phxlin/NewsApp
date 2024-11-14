@@ -26,7 +26,7 @@ class NewsActivity : AppCompatActivity() {
             NewsViewModelProviderFactory(
                 NewsRepositoryImp(
                     RetrofitInstance.api,
-                    ArticleDatabase(this)
+                    ArticleDatabase(this).getArticleDao()
                 )
             )
         )[NewsViewModel::class.java]
