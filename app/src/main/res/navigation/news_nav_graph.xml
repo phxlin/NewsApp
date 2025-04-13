@@ -6,15 +6,15 @@
 
     <fragment
         android:id="@+id/articleFragment"
-        android:name="lin.yufan.newsapp.ui.features.fragments.ArticleFragment"
+        android:name="lin.yufan.whatsnew.ui.features.fragments.ArticleFragment"
         android:label="ArticleFragment">
         <argument
             android:name="article"
-            app:argType="lin.yufan.newsapp.data.model.Article" />
+            app:argType="lin.yufan.whatsnew.data.model.Article" />
     </fragment>
     <fragment
         android:id="@+id/breakingNewsFragment"
-        android:name="lin.yufan.newsapp.ui.features.fragments.BreakingNewsFragment"
+        android:name="lin.yufan.whatsnew.ui.features.fragments.BreakingNewsFragment"
         android:label="BreakingNewsFragment">
         <action
             android:id="@+id/action_breakingNewsFragment_to_articleFragment"
@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/savedNewsFragment"
-        android:name="lin.yufan.newsapp.ui.features.fragments.SavedNewsFragment"
+        android:name="lin.yufan.whatsnew.ui.features.fragments.SavedNewsFragment"
         android:label="SavedNewsFragment">
         <action
             android:id="@+id/action_savedNewsFragment_to_articleFragment"
@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchNewsFragment"
-        android:name="lin.yufan.newsapp.ui.features.fragments.SearchNewsFragment"
+        android:name="lin.yufan.whatsnew.ui.features.fragments.SearchNewsFragment"
         android:label="SearchNewsFragment">
         <action
             android:id="@+id/action_searchNewsFragment_to_articleFragment"
