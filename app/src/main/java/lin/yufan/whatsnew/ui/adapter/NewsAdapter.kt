@@ -1,15 +1,12 @@
 package lin.yufan.whatsnew.ui.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import lin.yufan.whatsnew.R
 import lin.yufan.whatsnew.data.model.Article
+import lin.yufan.whatsnew.databinding.ItemArticlePreviewBinding
 import lin.yufan.whatsnew.util.getProgressDrawable
 import lin.yufan.whatsnew.util.loadImage
 
@@ -27,45 +24,40 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ArticleViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_article_preview,
+            ItemArticlePreviewBinding.inflate(
+                LayoutInflater.from(parent.context),
                 parent,
                 false
             )
         )
 
-    override fun getItemCount() = diff.currentList.size
-
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
-        val currentArticle = diff.currentList[position]
-
-        holder.itemView.apply {
-            val ivArticleImage = findViewById<ImageView>(R.id.ivArticleImage)
-            val tvTitle = findViewById<TextView>(R.id.tvTitle)
-            val tvDescription = findViewById<TextView>(R.id.tvDescription)
-            val tvSource = findViewById<TextView>(R.id.tvSource)
-            val tvPublishedAt = findViewById<TextView>(R.id.tvPublishedAt)
-
-            ivArticleImage.loadImage(
-                currentArticle.urlToImage,
-                getProgressDrawable(context)
-            )
-            tvTitle.text = currentArticle.title
-            tvDescription.text = currentArticle.description
-            tvSource.text = currentArticle.source?.name
-            tvPublishedAt.text = currentArticle.publishedAt
-
-            setOnClickListener {
-                onItemClickListener?.let {
-                    it(currentArticle)
-                }
-            }
-        }
+        holder.bind(diff.currentList[position])
     }
+
+    override fun getItemCount() = diff.currentList.size
 
     fun setOnItemClickListener(listener: (Article) -> Unit) {
         onItemClickListener = listener
     }
 
-    inner class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    inner class ArticleViewHolder(private val binding: ItemArticlePreviewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(article: Article) = with(binding) {
+            ivArticleImage.loadImage(
+                article.urlToImage,
+                getProgressDrawable(itemView.context)
+            )
+            tvTitle.text = article.title
+            tvDescription.text = article.description
+            tvSource.text = article.source?.name
+            tvPublishedAt.text = article.publishedAt
+
+            itemView.setOnClickListener {
+                onItemClickListener?.let {
+                    it(article)
+                }
+            }
+        }
+    }
 }

@@ -3,12 +3,11 @@ package lin.yufan.whatsnew.ui.features.fragments
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebView
-import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import lin.yufan.whatsnew.R
+import lin.yufan.whatsnew.databinding.FragmentArticleBinding
 import lin.yufan.whatsnew.ui.NewsActivity
 import lin.yufan.whatsnew.ui.viewmodel.NewsViewModel
 
@@ -17,17 +16,21 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
     lateinit var viewModel: NewsViewModel
     private val args: ArticleFragmentArgs by navArgs()
 
+    private lateinit var binding: FragmentArticleBinding
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = FragmentArticleBinding.bind(view)
 
         viewModel = (activity as NewsActivity).viewModel
         val article = args.article
 
-        (activity as NewsActivity).findViewById<WebView>(R.id.webView).apply {
+        binding.webView.apply {
             webViewClient = WebViewClient()
             article.url?.let { loadUrl(it) }
         }
-        (activity as NewsActivity).findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
+
+        binding.fab.setOnClickListener {
             viewModel.saveArticle(article)
             Snackbar.make(view, "Saved successfully", Snackbar.LENGTH_SHORT).show()
         }
@@ -37,7 +40,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
 
         override fun onPageFinished(view: WebView, url: String) {
             super.onPageFinished(view, url)
-            (activity as NewsActivity).findViewById<ProgressBar>(R.id.loadingNewsProgressBar).visibility =
+            binding.loadingNewsProgressBar.visibility =
                 View.GONE
         }
     }
